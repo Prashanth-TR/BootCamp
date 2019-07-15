@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Class-Path: /Users/prashanth.rangarajan/Downloads/TwitterBasic/src/mai
+ n/java/com/Bootcamp/TwitterBasic
+Main-Class: BasicTwitterFeatures
+
