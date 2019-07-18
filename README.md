@@ -7,5 +7,3 @@ The Java program "BasicTwitterFeatures" does the following functions:
 2. Get the current "timeline" from the user's newsfeed and print it in the console.
 
 Twitter4J is an unofficial Java library for the Twitter API using which the program performs the above tasks.
-
-In the file "src/main/resources/twitter4j.properties" add the authentication credentials from your own twitter app which you have created.
