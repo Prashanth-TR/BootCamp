@@ -2,6 +2,9 @@ package com.Bootcamp.TwitterBasic;
 
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
+import twitter4j.Twitter;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
 
 
 public class MainApplication extends Application<ApplicationConfiguration> {
@@ -10,12 +13,15 @@ public class MainApplication extends Application<ApplicationConfiguration> {
     }
     @Override
     public void run(ApplicationConfiguration applicationConfiguration, Environment environment) throws Exception {
-        final TwitterActions publishTweet = new TwitterActions(
-                applicationConfiguration.getConsumerKey(),
-                applicationConfiguration.getConsumerSecret(),
-                applicationConfiguration.getAccessToken(),
-                applicationConfiguration.getAccessTokenSecret()
-        );
-        environment.jersey().register(publishTweet);
+        ConfigurationBuilder cb = new ConfigurationBuilder();
+        cb.setDebugEnabled(true);
+        cb.setOAuthConsumerKey(applicationConfiguration.getConsumerKey());
+        cb.setOAuthConsumerSecret(applicationConfiguration.getConsumerSecret());
+        cb.setOAuthAccessToken(applicationConfiguration.getAccessToken());
+        cb.setOAuthAccessTokenSecret(applicationConfiguration.getAccessTokenSecret());
+        TwitterFactory tf = new TwitterFactory(cb.build());
+        Twitter twitter = tf.getInstance();
+        final TwitterActions twitterActions = new TwitterActions(twitter);
+        environment.jersey().register(twitterActions);
     }
 }

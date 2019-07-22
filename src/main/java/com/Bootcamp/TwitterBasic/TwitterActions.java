@@ -21,27 +21,13 @@ public class TwitterActions {
     String accessToken;
     String accessTokenSecret;
 
-    public TwitterActions(String consumerKey, String consumerSecret, String accessToken, String accessTokenSecret) {
-        this.consumerKey = consumerKey;
-        this.consumerSecret = consumerSecret;
-        this.accessToken = accessToken;
-        this.accessTokenSecret = accessTokenSecret;
-
-
-        ConfigurationBuilder cb = new ConfigurationBuilder();
-        cb.setDebugEnabled(true);
-        cb.setOAuthConsumerKey(this.consumerKey);
-        cb.setOAuthConsumerSecret(this.consumerSecret);
-        cb.setOAuthAccessToken(this.accessToken);
-        cb.setOAuthAccessTokenSecret(this.accessTokenSecret);
-        TwitterFactory tf = new TwitterFactory(cb.build());
-        twitter = tf.getInstance();
-
+    public TwitterActions(Twitter twitter) {
+        this.twitter = twitter;
     }
     ////////
     @GET
     @Path("/timeline")
-    public Response timeline()
+    public Response timeline() throws Exception
     {
         try {
             RetrieveTimeline retrieveTimeline = new RetrieveTimeline();
