@@ -1,4 +1,4 @@
-package com.Bootcamp.TwitterBasic;
+package com.Bootcamp.TwitterBasic.Service.ServiceImpl;
 
 import twitter4j.Status;
 import twitter4j.Twitter;

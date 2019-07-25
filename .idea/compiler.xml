@@ -12,6 +12,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="BootCamp" target="1.7" />
+      <module name="TwitterBasic" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>
