@@ -16,18 +16,20 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TwitterTest {
     Twitter twitter = Mockito.mock(Twitter.class);
 
-   /* @Test
+    @Test
     public void testPostingTweet()throws Exception
     {
-        //assertTrue(twitterActions.tweet("vanakkam") == "'code' : 201, 'message' : Created");
+        /*//assertTrue(twitterActions.tweet("vanakkam") == "'code' : 201, 'message' : Created");
         String twt = "asdf";
         Status status = Mockito.mock(Status.class);
         Mockito.doReturn(status).when(twitter).updateStatus(twt);
 
         TwitterActions twitterActions = new TwitterActions(twitter);
         Response response = twitterActions.tweet(twt);
-        Assert.assertEquals(response.getEntity(), null);
-    }*/
+        Assert.assertEquals(response.getEntity(), null);*/
+
+
+    }
 
     @Test
     public void testGettingTime()throws Exception

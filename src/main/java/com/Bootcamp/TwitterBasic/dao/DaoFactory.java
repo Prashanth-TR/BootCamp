@@ -1,6 +1,6 @@
-package com.Bootcamp.TwitterBasic.Dao;
+package com.Bootcamp.TwitterBasic.dao;
 
-import com.Bootcamp.TwitterBasic.Dao.DaoImpl.DaoImpl;
+import com.Bootcamp.TwitterBasic.dao.daoImpl.DaoImpl;
 
 public class DaoFactory {
     public static Dao getDao()

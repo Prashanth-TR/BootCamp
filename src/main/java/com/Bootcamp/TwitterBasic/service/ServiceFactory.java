@@ -1,6 +1,6 @@
-package com.Bootcamp.TwitterBasic.Service;
+package com.Bootcamp.TwitterBasic.service;
 
-import com.Bootcamp.TwitterBasic.Service.ServiceImpl.ServiceImpl;
+import com.Bootcamp.TwitterBasic.service.serviceImpl.ServiceImpl;
 
 public class ServiceFactory {
 

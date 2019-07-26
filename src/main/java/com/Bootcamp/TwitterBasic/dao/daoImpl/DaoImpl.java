@@ -1,6 +1,6 @@
-package com.Bootcamp.TwitterBasic.Dao.DaoImpl;
+package com.Bootcamp.TwitterBasic.dao.daoImpl;
 
-import com.Bootcamp.TwitterBasic.Dao.Dao;
+import com.Bootcamp.TwitterBasic.dao.Dao;
 
 import java.util.HashMap;
 
