@@ -8,9 +8,13 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 public class ServiceImpl implements Service {
+    Date testTime = null;
     public void postTweet(String name, String tweet, Twitter twitter) throws TwitterException
     {
         Dao dao = DaoFactory.getDao();
@@ -24,5 +28,44 @@ public class ServiceImpl implements Service {
         RetrieveTimeline retrieveTimeline = new RetrieveTimeline();
 
         return retrieveTimeline.getTimeLine(twitter);
+    }
+
+    public Stream<StatusPojo> getFilteredTimeline(Twitter twitter) throws TwitterException
+    {
+        RetrieveTimeline retrieveTimeline = new RetrieveTimeline();
+        List<StatusPojo> statusPojos = retrieveTimeline.getTimeLine(twitter);
+        Stream<StatusPojo> filteredTweets = statusPojos.stream().filter(statusPojo -> statusPojo.getHandle().startsWith("A"));
+        return filteredTweets;
+    }
+
+    public List<StatusPojo> getCachedTimeline(Twitter twitter, long cacheTimeLimit) throws TwitterException
+    {
+        Date currTime = new Date();
+        if(testTime == null)
+        {
+            RetrieveTimeline retrieveTimeline = new RetrieveTimeline();
+            List<StatusPojo> cache = retrieveTimeline.getTimeLine(twitter);
+            Dao dao = DaoFactory.getDao();
+            dao.setCache(cache);
+            testTime = currTime;
+            System.out.println("Accessing Twitter API");
+            return cache;
+        }
+        long diffMilli = currTime.getTime() - testTime.getTime();
+        long diffSec = TimeUnit.MILLISECONDS.toSeconds(diffMilli);
+
+        if(diffSec > cacheTimeLimit)
+        {
+            RetrieveTimeline retrieveTimeline = new RetrieveTimeline();
+            List<StatusPojo> cache = retrieveTimeline.getTimeLine(twitter);
+            Dao dao = DaoFactory.getDao();
+            dao.setCache(cache);
+            testTime = currTime;
+            System.out.println("Accessing Twitter API");
+            return cache;
+        }
+        System.out.println("Accessing Cache");
+        Dao dao = DaoFactory.getDao();
+        return dao.getCache();
     }
 }

@@ -4,6 +4,8 @@ import io.dropwizard.Configuration;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotNull;
+
 public class ApplicationConfiguration extends Configuration {
     @NotEmpty
     private String consumerKey;
@@ -13,6 +15,8 @@ public class ApplicationConfiguration extends Configuration {
     private String accessToken;
     @NotEmpty
     private String accessTokenSecret;
+    @NotNull
+    private long cacheTime;
 
     @JsonProperty
     public String getConsumerKey() {
@@ -45,5 +49,12 @@ public class ApplicationConfiguration extends Configuration {
 
     @JsonProperty
     public void setAccessTokenSecret(String accessTokenSecret){ this.accessTokenSecret = accessTokenSecret;}
+
+    @JsonProperty
+    public long getCacheTime() { return cacheTime;}
+
+    @JsonProperty
+    public void setCacheTime(long cacheTime){this.cacheTime = cacheTime;}
+
 
 }

@@ -6,8 +6,12 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public interface Service {
     void postTweet(String name1, String Tweet, Twitter twitter) throws TwitterException;
     List<StatusPojo> getTimeline(Twitter twitter) throws TwitterException;
+    Stream<StatusPojo> getFilteredTimeline(Twitter twitter) throws TwitterException;
+    List<StatusPojo> getCachedTimeline(Twitter twitter, long cacheTimeLimit) throws TwitterException;
+
 }

@@ -15,8 +15,9 @@ import twitter4j.TwitterException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
-
+import java.util.stream.Stream;
 
 
 @Path("/twitter-api/1.0")
@@ -30,10 +31,14 @@ public class TwitterActions {
     String accessToken;
     String accessTokenSecret;
 
+    long cacheTimeLimit;
+
     private static Logger logger = LogManager.getLogger(TwitterActions.class);
 
-    public TwitterActions(Twitter twitter) {
+    public TwitterActions(Twitter twitter, long cacheTimeLimit)
+    {
         this.twitter = twitter;
+        this.cacheTimeLimit = cacheTimeLimit;
     }
 
     @GET
@@ -67,5 +72,21 @@ public class TwitterActions {
             logger.error(e.getErrorMessage(), e);
             return Response.serverError().entity(e.getMessage()).build();
         }
+    }
+
+    @GET
+    @Path("/timeline/filter")
+    public Response filter() throws TwitterException {
+        Service service = ServiceFactory.getService();
+        Stream<StatusPojo> filteredTweets = service.getFilteredTimeline(twitter);
+        return Response.ok().entity(filteredTweets).build();
+    }
+
+    @GET
+    @Path("timeline/cache")
+    public Response cache() throws TwitterException {
+        Service service = ServiceFactory.getService();
+        List<StatusPojo> cachedTimeline= service.getCachedTimeline(twitter, cacheTimeLimit);
+        return Response.ok().entity(cachedTimeline).build();
     }
 }

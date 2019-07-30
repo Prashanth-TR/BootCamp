@@ -6,13 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="TwitterBasic" />
         <module name="BootCamp" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="BootCamp" target="1.7" />
-      <module name="TwitterBasic" target="1.7" />
+      <module name="BootCamp" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
