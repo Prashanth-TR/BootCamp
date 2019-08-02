@@ -11,7 +11,11 @@ import org.apache.log4j.LogManager;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -26,18 +30,31 @@ public class TwitterActions {
 
     Twitter twitter;
 
-    String consumerKey;
-    String consumerSecret;
-    String accessToken;
-    String accessTokenSecret;
-
+    private static Logger logger = LogManager.getLogger(TwitterActions.class);
     long cacheTimeLimit;
 
-    private static Logger logger = LogManager.getLogger(TwitterActions.class);
+    @Inject
+    public Service service;
 
-    public TwitterActions(Twitter twitter, long cacheTimeLimit)
+
+    @Inject
+    public TwitterActions(
+            @Named("consumerKey") String consumerKey,
+            @Named("consumerSecret") String consumerSecret,
+            @Named("accessToken") String accessToken,
+            @Named("accessTokenSecret") String accessTokenSecret,
+            @Named("cacheTimeLimit") long cacheTimeLimit
+    )
     {
-        this.twitter = twitter;
+        ConfigurationBuilder cb = new ConfigurationBuilder();
+        cb.setDebugEnabled(true);
+        cb.setOAuthConsumerKey(consumerKey);
+        cb.setOAuthConsumerSecret(consumerSecret);
+        cb.setOAuthAccessToken(accessToken);
+        cb.setOAuthAccessTokenSecret(accessTokenSecret);
+
+        TwitterFactory twitterFactory = new TwitterFactory(cb.build());
+        this.twitter = twitterFactory.getInstance();
         this.cacheTimeLimit = cacheTimeLimit;
     }
 
@@ -47,7 +64,7 @@ public class TwitterActions {
     {
         logger.info("Executing GET request");
         try {
-            Service service = ServiceFactory.getService();
+            //Service service = ServiceFactory.getService();
             List<StatusPojo> twt = service.getTimeline(twitter);
            // logger.debug("{}",service);
             return Response.ok().entity(twt).build();
@@ -64,7 +81,7 @@ public class TwitterActions {
     {
         logger.debug("Executing POST request");
         try {
-            Service service = ServiceFactory.getService();
+            //Service service = ServiceFactory.getService();
             service.postTweet("Prashanth ", twt, twitter);
             return Response.ok().build();
         }catch (TwitterException e)
@@ -77,7 +94,7 @@ public class TwitterActions {
     @GET
     @Path("/timeline/filter")
     public Response filter() throws TwitterException {
-        Service service = ServiceFactory.getService();
+        //Service service = ServiceFactory.getService();
         Stream<StatusPojo> filteredTweets = service.getFilteredTimeline(twitter);
         return Response.ok().entity(filteredTweets).build();
     }
@@ -85,7 +102,7 @@ public class TwitterActions {
     @GET
     @Path("timeline/cache")
     public Response cache() throws TwitterException {
-        Service service = ServiceFactory.getService();
+        //Service service = ServiceFactory.getService();
         List<StatusPojo> cachedTimeline= service.getCachedTimeline(twitter, cacheTimeLimit);
         return Response.ok().entity(cachedTimeline).build();
     }
