@@ -22,6 +22,7 @@ public class RetrieveTimeline {
     {
         try {
             statuses = twitter.getHomeTimeline();
+            String url;
             for(Status status : statuses) {
 
                 StatusPojo statusPojo = new StatusPojo();
@@ -30,6 +31,9 @@ public class RetrieveTimeline {
                 statusPojo.setMessage(status.getText());
                 statusPojo.setCreatedAt(String.valueOf(status.getCreatedAt()));
                 statusPojo.setProfileImageUrl(status.getUser().getProfileImageURL());
+                url= "https://twitter.com/" + status.getUser().getScreenName()
+                        + "/status/" + status.getId();
+                statusPojo.setTweetUrl(url);
                 System.out.println(statusPojo);
                 statusPojos.add(statusPojo);
             }

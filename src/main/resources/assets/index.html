@@ -1,12 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Some Random Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <style>
+   .row div:nth-child(even){
+     background-color: #e8f5fd;
+     font-family: "Times New Roman", Times, serif;
+   }
+   .row div:nth-child(odd){
+     background-color: #e9e9e9;
+     font-family: "Times New Roman", Times, serif;
+   }
+   .heading{
+        text-align: center;
+        font-weight: bold;
+        font-size: 40pt;
+        font-family: "Times New Roman", Times, serif;
+   }
+   .body{
+        font-family: "Times New Roman", Times, serif;
 
-    <p>Hello World</p>
+ </style>
 </head>
-<body>
+<div class = heading>
+    Lab for Prashanth
+</div>
+<div class = body>
+    <body>Twitter App</body>
+    <button type="button" id="btn">Request data</button>
+</div>
 
-</body>
+
+<div class="container">
+    <div class="row">
+        <div id="demo" style = "border-style:solid;border-width:5px;"></div>
+    </div>
+</div>
+
+<script type='text/javascript'>
+
+var tweetContainer = document.getElementById("demo");
+
+var btn = document.getElementById("btn");
+
+btn.addEventListener("click", function(){
+var ourRequest = new XMLHttpRequest();
+ourRequest.open('GET', 'http://localhost:9000/twitter-api/1.0/timeline')
+ourRequest.onload = function() {
+ var tweets = JSON.parse(ourRequest.responseText);
+
+ renderHTML(tweets);
+
+ console.log(tweets[0]);
+ console.log(ourRequest.responseText);
+};
+ourRequest.send();
+});
+
+function renderHTML(tweets){
+ var htmlString = "";
+
+  for (i = 0; i < tweets.length; i++){
+   htmlString += "<div onclick=goto('" + tweets[i].tweetUrl + "')><img src=" + tweets[i].profileImageUrl + ">" + tweets[i].message + "----" + tweets[i].createdAt + "</div>";
+ }
+ tweetContainer.insertAdjacentHTML('beforeend', htmlString);
+}
+
+function goto(url)
+{
+    window.open(url);
+    console.log(url);
+}
+
+</script>
 </html>

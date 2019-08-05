@@ -8,6 +8,7 @@ public class StatusPojo {
     private String handle;
     private String profileImageUrl;
     private String createdAt;
+    private String tweetUrl;
 
     public void setMessage(String message)
     {
@@ -53,4 +54,7 @@ public class StatusPojo {
     {
         return createdAt;
     }
+
+    public void setTweetUrl(String tweetUrl){ this.tweetUrl = tweetUrl;}
+    public String getTweetUrl(){ return tweetUrl;}
 }
