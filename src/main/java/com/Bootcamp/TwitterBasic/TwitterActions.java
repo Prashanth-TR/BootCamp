@@ -2,10 +2,11 @@ package com.Bootcamp.TwitterBasic;
 
 import com.Bootcamp.TwitterBasic.models.StatusPojo;
 import com.Bootcamp.TwitterBasic.service.Service;
-import com.Bootcamp.TwitterBasic.service.ServiceFactory;
+//import com.Bootcamp.TwitterBasic.service.ServiceFactory;
 import com.codahale.metrics.annotation.Timed;
 
 
+import io.dropwizard.hibernate.UnitOfWork;
 import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
 import twitter4j.Status;
@@ -60,12 +61,13 @@ public class TwitterActions {
 
     @GET
     @Path("/timeline")
+    @UnitOfWork
     public Response timeline() throws Exception
     {
         logger.info("Executing GET request");
         try {
             //Service service = ServiceFactory.getService();
-            List<StatusPojo> twt = service.getTimeline(twitter);
+            List<StatusPojo> twt = service.getTimeLineDB(twitter);
            // logger.debug("{}",service);
             return Response.ok().entity(twt).build();
         }catch(TwitterException e) {
@@ -77,6 +79,7 @@ public class TwitterActions {
     @POST
     @Path("/tweet")
     @Timed
+    @UnitOfWork
     public Response tweet( String twt)
     {
         logger.debug("Executing POST request");

@@ -3,6 +3,14 @@ package com.Bootcamp.TwitterBasic.dao.daoImpl;
 import com.Bootcamp.TwitterBasic.dao.Dao;
 import com.Bootcamp.TwitterBasic.models.StatusPojo;
 
+import com.Bootcamp.TwitterBasic.service.serviceImpl.RetrieveTimeline;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,4 +47,17 @@ public class DaoImpl implements Dao {
         people.put(name, handle);
     }
 
+    public void insertIntoDB(RetrieveTimeline retrieveTimeline, Twitter twitter)throws TwitterException
+    {
+        Session session =null;
+        SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+        session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        List<StatusPojo> statusPojos = retrieveTimeline.getTimeLine(twitter);
+        for(StatusPojo statusPojo : statusPojos)
+        {
+            session.persist(statusPojo);
+            transaction.commit();
+        }
+    }
 }

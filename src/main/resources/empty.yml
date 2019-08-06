@@ -5,6 +5,20 @@ server:
   adminConnectors:
     - type: http
       port: 9001
+
+database:
+  driverClass: com.mysql.jdbc.Driver
+  user: root
+  password: virat@18
+  url: jdbc:mysql://localhost:3306/twitter
+  properties:
+    charSet: UTF-8
+    hibernate.dialect: org.hibernate.dialect.MySQLDialect
+  maxWaitForConnection: 1s
+  minSize: 8
+  maxSize: 32
+  checkConnectionWhileIdle: false
+
 consumerKey : zbmfD46XNdUBEyjx4iTmzJgXe
 consumerSecret : SEr8nv4y6hY8g9uvSnVCkzbqE2gMJTeYut4Iia7phm5eTBYPlX
 accessToken : 2251118479-mpGmkKhnD6grs34CNgVaFzp2DMHHVyXq5TbzK1g

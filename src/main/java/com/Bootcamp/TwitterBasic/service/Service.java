@@ -13,5 +13,5 @@ public interface Service {
     List<StatusPojo> getTimeline(Twitter twitter) throws TwitterException;
     Stream<StatusPojo> getFilteredTimeline(Twitter twitter) throws TwitterException;
     List<StatusPojo> getCachedTimeline(Twitter twitter, long cacheTimeLimit) throws TwitterException;
-
+    List<StatusPojo> getTimeLineDB(Twitter twitter) throws TwitterException;
 }

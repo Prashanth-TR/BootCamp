@@ -1,6 +1,9 @@
 package com.Bootcamp.TwitterBasic.dao;
 
 import com.Bootcamp.TwitterBasic.models.StatusPojo;
+import com.Bootcamp.TwitterBasic.service.serviceImpl.RetrieveTimeline;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,4 +21,6 @@ public interface Dao {
     String getHandle(String name);
 
     void putHandle(String name, String reference);
+
+    void insertIntoDB(RetrieveTimeline retrieveTimeline, Twitter twitter)throws TwitterException;
 }

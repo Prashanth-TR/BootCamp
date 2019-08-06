@@ -1,13 +1,18 @@
 package com.Bootcamp.TwitterBasic;
 
 import io.dropwizard.Application;
+import io.dropwizard.ConfiguredBundle;
 import io.dropwizard.assets.AssetsBundle;
+import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 import ru.vyarus.dropwizard.guice.GuiceBundle;
+
+
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
@@ -18,17 +23,23 @@ import java.util.EnumSet;
 
 public class MainApplication extends Application<ApplicationConfiguration> {
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) {
         final Logger logger = LogManager.getLogger(MainApplication.class);
         logger.info("Executing Main Function");
-        new MainApplication().run(args);
+        try {
+            new MainApplication().run(args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void initialize(Bootstrap<ApplicationConfiguration> bootstrap) {
+        final HbnBundle hibernate = new HbnBundle();
+        bootstrap.addBundle(hibernate);
         bootstrap.addBundle(GuiceBundle.builder()
                 .enableAutoConfig(getClass().getPackage().getName())
-                .modules(new InjectModule())
+                .modules(new InjectModule(hibernate))
                 .build());
         bootstrap.addBundle(new AssetsBundle("/assets", "/feed", "index.html"));
     }

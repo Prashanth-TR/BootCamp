@@ -2,12 +2,14 @@ package com.Bootcamp.TwitterBasic.service.serviceImpl;
 
 import com.Bootcamp.TwitterBasic.dao.Dao;
 import com.Bootcamp.TwitterBasic.dao.DaoFactory;
+import com.Bootcamp.TwitterBasic.dao.StatusPojoDao;
 import com.Bootcamp.TwitterBasic.models.StatusPojo;
 import com.Bootcamp.TwitterBasic.service.Service;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
+import javax.inject.Inject;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -15,6 +17,14 @@ import java.util.stream.Stream;
 
 public class ServiceImpl implements Service {
     Date testTime = null;
+    StatusPojoDao statusPojoDao;
+
+    @Inject
+    public ServiceImpl(StatusPojoDao statusPojoDao)
+    {
+        this.statusPojoDao = statusPojoDao;
+    }
+
     public void postTweet(String name, String tweet, Twitter twitter) throws TwitterException
     {
         Dao dao = DaoFactory.getDao();
@@ -28,6 +38,20 @@ public class ServiceImpl implements Service {
         RetrieveTimeline retrieveTimeline = new RetrieveTimeline();
 
         return retrieveTimeline.getTimeLine(twitter);
+    }
+
+    public List<StatusPojo> getTimeLineDB(Twitter twitter) throws TwitterException
+    {
+        RetrieveTimeline retrieveTimeline = new RetrieveTimeline();
+
+        List<StatusPojo> statusPojos = retrieveTimeline.getTimeLine(twitter);
+
+        for(StatusPojo statusPojo : statusPojos)
+        {
+            statusPojoDao.create(statusPojo);
+        }
+
+        return statusPojos;
     }
 
     public Stream<StatusPojo> getFilteredTimeline(Twitter twitter) throws TwitterException

@@ -1,10 +1,13 @@
 package com.Bootcamp.TwitterBasic;
 
+import com.mysql.cj.jdbc.MysqlDataSourceFactory;
 import io.dropwizard.Configuration;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
-
+import io.dropwizard.db.DataSourceFactory;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
 
 public class ApplicationConfiguration extends Configuration {
     @NotEmpty
@@ -17,6 +20,10 @@ public class ApplicationConfiguration extends Configuration {
     private String accessTokenSecret;
     @NotNull
     private long cacheTime;
+
+    @Valid
+    @NotNull
+    private DataSourceFactory dataSourceFactory = new DataSourceFactory();
 
     @JsonProperty
     public String getConsumerKey() {
@@ -56,5 +63,9 @@ public class ApplicationConfiguration extends Configuration {
     @JsonProperty
     public void setCacheTime(long cacheTime){this.cacheTime = cacheTime;}
 
+    @JsonProperty("database")
+    public DataSourceFactory getDataSourceFactory() {
+        return dataSourceFactory;
+    }
 
 }
