@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface StatusPojoDao {
     long create(StatusPojo statusPojo);
-//    List<StatusPojo> findAll();
+    List<StatusPojo> findAll();
 }

@@ -21,8 +21,8 @@ public class StatusPojoDaoImpl extends AbstractDAO<StatusPojo> implements Status
     }
 
 
-//    public List<StatusPojo> findAll() {
-//        List<StatusPojo> ls = list(namedQuery("findAll"));
-//        return ls;
-//    }
+    public List<StatusPojo> findAll() {
+        List<StatusPojo> ls = list(namedQuery("findAll"));
+        return ls;
+    }
 }

@@ -51,7 +51,7 @@ public class ServiceImpl implements Service {
             statusPojoDao.create(statusPojo);
         }
 
-        return statusPojos;
+        return statusPojoDao.findAll();
     }
 
     public Stream<StatusPojo> getFilteredTimeline(Twitter twitter) throws TwitterException

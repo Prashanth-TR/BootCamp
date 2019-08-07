@@ -11,6 +11,9 @@ import java.util.Date;
 
 @Entity
 @Table(name = "tweet_data")
+@NamedQueries(
+        @NamedQuery(name = "findAll", query = "select a from StatusPojo a")
+)
 public class StatusPojo {
 
     @Id
